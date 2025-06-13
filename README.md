@@ -39,7 +39,7 @@ El proyecto utiliza las siguientes tecnologías:
 
 1. Clonar el repositorio:
    ```
-   git clone https://github.com/tuusuario/stokity.git
+   git clone https://github.com/JUANJSC630/stokity.git
    cd stokity
    ```
 
@@ -50,7 +50,7 @@ El proyecto utiliza las siguientes tecnologías:
 
 3. Instalar dependencias JavaScript:
    ```
-   npm install
+   yarn install
    ```
 
 4. Configuración del entorno:
@@ -73,17 +73,17 @@ El proyecto utiliza las siguientes tecnologías:
 
 8. Compilar assets:
    ```
-   npm run build
+   yarn build
    ```
 
 9. Iniciar servidor de desarrollo:
    ```
-   php artisan serve
+   yarn dev
    ```
 
 ## Uso
 
-Acceda a la aplicación a través de la URL proporcionada por `php artisan serve`, generalmente `http://localhost:8000`.
+Acceda a la aplicación a través de la URL proporcionada por `yarn dev`, generalmente `http://localhost:8000`.
 
 ### Funcionalidades Planificadas
 
