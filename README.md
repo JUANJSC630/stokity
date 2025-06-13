@@ -104,7 +104,9 @@ Las contribuciones son bienvenidas. Por favor, siga los siguientes pasos para co
 
 ## Licencia
 
-Este proyecto está licenciado bajo [MIT License](LICENSE).
+Este proyecto está licenciado bajo la [Licencia MIT](LICENSE). La Licencia MIT es una licencia de software permisiva que permite el uso, copia, modificación, fusión, publicación, distribución, sublicencia y/o venta de copias del software, con la única condición de incluir el aviso de copyright y permiso original en todas las copias.
+
+Para más información sobre esta licencia, puede visitar [choosealicense.com](https://choosealicense.com/licenses/mit/).
 
 ## Contacto
 
