@@ -1,67 +1,115 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Stokity - Sistema POS para Inventario y Ventas
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/img/AdminLTEFullLogo.png" alt="Stokity Logo" width="200">
 </p>
 
-## About Laravel
+## Acerca del Proyecto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Stokity es un sistema POS (Point of Sale) diseñado para la gestión eficiente de inventario y ventas. Construido con Laravel 10, el sistema proporciona una solución completa para negocios que necesitan administrar productos, sucursales, usuarios, clientes, ventas e inventario en una plataforma intuitiva y robusta.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Características Principales
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Gestión de Inventario**: Control completo de stock, productos, categorías y movimientos de inventario.
+- **Punto de Venta**: Interfaz rápida e intuitiva para procesar ventas y emitir recibos.
+- **Administración de Usuarios**: Sistema de roles y permisos para controlar el acceso a diferentes funciones.
+- **Gestión de Sucursales**: Administración de múltiples ubicaciones de negocio.
+- **Reportes y Estadísticas**: Informes detallados sobre ventas, inventario y rendimiento.
+- **Facturación Electrónica**: Integración planificada con Factus para emisión de comprobantes electrónicos.
 
-## Learning Laravel
+## Tecnologías
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+El proyecto utiliza las siguientes tecnologías:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Backend**: Laravel 10
+- **Frontend**: HTML, CSS, JavaScript, Vite
+- **Base de Datos**: MySQL/PostgreSQL
+- **Autenticación**: Laravel Auth
+- **UI Framework**: AdminLTE
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requisitos del Sistema
 
-## Laravel Sponsors
+- PHP >= 8.1
+- Composer
+- Node.js y NPM
+- MySQL o PostgreSQL
+- Extensiones PHP requeridas por Laravel 10
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Instalación
 
-### Premium Partners
+1. Clonar el repositorio:
+   ```
+   git clone https://github.com/tuusuario/stokity.git
+   cd stokity
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. Instalar dependencias PHP:
+   ```
+   composer install
+   ```
 
-## Contributing
+3. Instalar dependencias JavaScript:
+   ```
+   npm install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Configuración del entorno:
+   ```
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Code of Conduct
+5. Configurar la base de datos en el archivo `.env`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. Ejecutar migraciones:
+   ```
+   php artisan migrate
+   ```
 
-## Security Vulnerabilities
+7. Ejecutar seeders (opcional):
+   ```
+   php artisan db:seed
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+8. Compilar assets:
+   ```
+   npm run build
+   ```
 
-## License
+9. Iniciar servidor de desarrollo:
+   ```
+   php artisan serve
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# stokity
+## Uso
+
+Acceda a la aplicación a través de la URL proporcionada por `php artisan serve`, generalmente `http://localhost:8000`.
+
+### Funcionalidades Planificadas
+
+- **Integración con Factus**: Para emisión de facturas electrónicas cumpliendo con normativas fiscales.
+- **Aplicación Móvil**: Para administración remota y consulta de estadísticas.
+- **Integraciones con Pasarelas de Pago**: Para procesar pagos con tarjeta y otros métodos electrónicos.
+- **Módulo de CRM**: Para gestión de relaciones con clientes.
+
+## Contribución
+
+Las contribuciones son bienvenidas. Por favor, siga los siguientes pasos para contribuir:
+
+1. Hacer fork del proyecto
+2. Crear una rama para su funcionalidad (`git checkout -b feature/AmazingFeature`)
+3. Commit de los cambios (`git commit -m 'Agregar funcionalidad X'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir un Pull Request
+
+## Licencia
+
+Este proyecto está licenciado bajo [MIT License](LICENSE).
+
+## Contacto
+
+Para preguntas o soporte, por favor contactar al equipo de desarrollo.
+
+---
+
+&copy; 2025 Stokity - Todos los derechos reservados.
