@@ -1,7 +1,8 @@
 @extends('app')
 
 @section('content')
-<main class="app-main">
-  <p>Hello Word</p>
-</main>
+<div class="container">
+    <h1>Home</h1>
+    <!-- Contenido de la página de ventas -->
+</div>
 @endsection
