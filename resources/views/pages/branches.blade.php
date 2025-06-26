@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('app')
+
 @section('content')
-<div class="container mt-4">
+<div class="container">
   <section class="content-header d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Sucursales</h1>
     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addBranch">Agregar sucursal</button>

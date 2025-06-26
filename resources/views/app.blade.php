@@ -65,8 +65,9 @@
   <div class="app-wrapper">
     @include('layouts.components.navbar')
     @include('layouts.components.sidebar')
-
-    @yield('content')
+    <div class="app-content p-4">
+      @yield('content')
+    </div>
   </div>
   @else
   <!-- Mostrando contenido para usuario no autenticado -->
@@ -114,4 +115,5 @@
 </script>
 
 @vite(['resources/css/app.css', 'resources/js/adminlte.js'])
+
 </html>
