@@ -28,3 +28,11 @@ Route::view(('/auth/register'), 'pages.auth.register')->name('auth.register');
 Route::view(('/auth/password/reset'), 'pages.auth.passwords.reset')->name('auth.password.reset');
 Route::view(('/auth/password/email'), 'pages.auth.passwords.email')->name('auth.password.email');
 Route::view(('/auth/password/confirm'), 'pages.auth.passwords.confirm')->name('auth.password.confirm');
+
+Route::view('/users', 'pages.users')->name('users');
+Route::view('/branches', 'pages.branches')->name('branches');
+Route::view('/categories', 'pages.categories')->name('categories');
+Route::view('/products', 'pages.products')->name('products');
+Route::view('/clients', 'pages.clients')->name('clients');
+Route::view('/sales', 'pages.sales')->name('sales');
+Route::view('/report-sales', 'pages.report-sales')->name('report-sales');

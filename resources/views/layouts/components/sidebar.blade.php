@@ -1,9 +1,7 @@
-<!--begin::Sidebar-->
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-  <!--begin::Sidebar Brand-->
   <div class="sidebar-brand">
     <!--begin::Brand Link-->
-    <a href="./index.html" class="brand-link">
+    <a href="/" class="brand-link">
       <!--begin::Brand Image-->
       <img
         src="{{ asset('img/AdminLTELogo.png') }}"
@@ -16,185 +14,80 @@
     </a>
     <!--end::Brand Link-->
   </div>
-  <!--end::Sidebar Brand-->
-  <!--begin::Sidebar Wrapper-->
+
   <div class="sidebar-wrapper">
     <nav class="mt-2">
-      <!--begin::Sidebar Menu-->
       <ul
         class="nav sidebar-menu flex-column"
         data-lte-toggle="treeview"
         role="menu"
         data-accordion="false">
         <li class="nav-item menu-open">
-          <a href="{{ url('dashboard')  }}" class="nav-link active">
+          <a href="/" class="nav-link active">
             <i class="nav-icon bi bi-speedometer"></i>
-            <p>
-              Dashboard
-              <i class="nav-arrow bi bi-chevron-right"></i>
-            </p>
+            <span>
+              Inicio
+            </span>
           </a>
         </li>
-
-        
-        <li class="nav-item">
-          <a href="./docs/color-mode.html" class="nav-link">
-            <i class="nav-icon bi bi-star-half"></i>
-            <p>Color Mode</p>
+        <hr class="border border-light" />
+        <li class="nav-item menu-open">
+          <a href="{{ url('users')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-person"></i>
+            <span>
+              Usuarios
+            </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-ui-checks-grid"></i>
-            <p>
-              Components
-              <i class="nav-arrow bi bi-chevron-right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="./docs/components/main-header.html" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Main Header</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="./docs/components/main-sidebar.html" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Main Sidebar</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-filetype-js"></i>
-            <p>
-              Javascript
-              <i class="nav-arrow bi bi-chevron-right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="./docs/javascript/treeview.html" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Treeview</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="./docs/browser-support.html" class="nav-link">
-            <i class="nav-icon bi bi-browser-edge"></i>
-            <p>Browser Support</p>
+        <li class="nav-item menu-open">
+          <a href="{{ url('branches')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-building"></i>
+            <span>
+              Sucursales
+            </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="./docs/how-to-contribute.html" class="nav-link">
-            <i class="nav-icon bi bi-hand-thumbs-up-fill"></i>
-            <p>How To Contribute</p>
+        <li class="nav-item menu-open">
+          <a href="{{ url('categories')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-tags"></i>
+            <span>
+              Categorías
+            </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="./docs/faq.html" class="nav-link">
-            <i class="nav-icon bi bi-question-circle-fill"></i>
-            <p>FAQ</p>
+        <li class="nav-item menu-open">
+          <a href="{{ url('products')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-box"></i>
+            <span>
+              Productos
+            </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="./docs/license.html" class="nav-link">
-            <i class="nav-icon bi bi-patch-check-fill"></i>
-            <p>License</p>
+        <li class="nav-item menu-open">
+          <a href="{{ url('clients')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-people"></i>
+            <span>
+              Clientes
+            </span>
           </a>
         </li>
-        <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-circle-fill"></i>
-            <p>Level 1</p>
+        <li class="nav-item menu-open">
+          <a href="{{ url('sales')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-cash-coin"></i>
+            <span>
+              Administrar Ventas
+            </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-circle-fill"></i>
-            <p>
-              Level 1
-              <i class="nav-arrow bi bi-chevron-right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Level 2</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>
-                  Level 2
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-record-circle-fill"></i>
-                    <p>Level 3</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-record-circle-fill"></i>
-                    <p>Level 3</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-record-circle-fill"></i>
-                    <p>Level 3</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Level 2</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-circle-fill"></i>
-            <p>Level 1</p>
-          </a>
-        </li>
-        <li class="nav-header">LABELS</li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-circle text-danger"></i>
-            <p class="text">Important</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-circle text-warning"></i>
-            <p>Warning</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon bi bi-circle text-info"></i>
-            <p>Informational</p>
+        <li class="nav-item menu-open">
+          <a href="{{ url('report-sales')  }}" class="nav-link active">
+            <i class="nav-icon bi bi-bar-chart"></i>
+            <span>
+              Reportes de Ventas
+            </span>
           </a>
         </li>
       </ul>
-      <!--end::Sidebar Menu-->
     </nav>
   </div>
-  <!--end::Sidebar Wrapper-->
 </aside>
-<!--end::Sidebar-->
