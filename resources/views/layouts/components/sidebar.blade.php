@@ -39,6 +39,7 @@
             </span>
           </a>
         </li>
+        @if(auth()->user() && auth()->user()->role === 'admin')
         <li class="nav-item menu-open">
           <a href="{{ url('branches')  }}" class="nav-link active">
             <i class="nav-icon bi bi-building"></i>
@@ -47,6 +48,7 @@
             </span>
           </a>
         </li>
+        @endif
         <li class="nav-item menu-open">
           <a href="{{ url('categories')  }}" class="nav-link active">
             <i class="nav-icon bi bi-tags"></i>
