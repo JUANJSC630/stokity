@@ -54,7 +54,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->status !== 1) {
+        if ($user->status !== "1") {
             Auth::logout();
             return redirect('/')->with('status', 'Tu cuenta no está activa. Contacta al administrador.');
         }
