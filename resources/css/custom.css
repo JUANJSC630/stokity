@@ -1,0 +1,37 @@
+/* Custom CSS para sobrescribir estilos específicos */
+
+/* Estilo para los enlaces del sidebar */
+.app-sidebar a, 
+.app-sidebar .nav-link,
+.app-sidebar .sidebar-link {
+  color: #212529 !important;
+  text-decoration: none !important;
+}
+
+/* Estilo para el hover de los enlaces del sidebar */
+.app-sidebar a:hover,
+.app-sidebar .nav-link:hover,
+.app-sidebar .sidebar-link:hover {
+  color: #C850C0 !important;
+}
+
+/* Estilo para los enlaces activos del sidebar */
+.active-gradient {
+  background: linear-gradient(90deg, #C850C0, #FFCC70) !important;
+  color: white !important;
+  box-shadow: 0 3px 8px rgba(200, 80, 192, 0.3) !important;
+}
+
+/* Asegurar que todos los enlaces no tengan subrayado */
+a {
+  text-decoration: none !important;
+}
+
+/* Aplicar el gradiente para el nombre de usuario en la tabla */
+.user-gradient {
+  background: linear-gradient(90deg, #C850C0, #FFCC70);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}

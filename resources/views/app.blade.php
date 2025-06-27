@@ -65,7 +65,7 @@
   <div class="app-wrapper">
     @include('layouts.components.navbar')
     @include('layouts.components.sidebar')
-    <div class="app-content p-4">
+    <div class="app-content">
       @yield('content')
     </div>
   </div>

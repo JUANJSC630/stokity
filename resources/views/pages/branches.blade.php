@@ -1,48 +1,71 @@
 @extends('app')
 
 @section('content')
-<div class="container py-4">
-  <section class="content-header d-flex justify-content-between align-items-center mb-3">
-    <h1 class="mb-0">Sucursales</h1>
-    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addBranch">Agregar sucursal</button>
+<div class="container container-fluid py-4" style="background: #f7f8fa;">
+  <section class="content-header d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0"
+      style="background: linear-gradient(90deg, #C850C0, #FFCC70); -webkit-background-clip: text; color: transparent;">
+      Sucursales
+    </h1>
+    <button
+      class="btn btn-gradient shadow-sm px-4 py-2 fw-semibold"
+      data-bs-toggle="modal"
+      data-bs-target="#addBranch"
+      style="background: linear-gradient(90deg, #C850C0 0%, #FFCC70 100%); color: #fff; border-radius: 16px; border: none; box-shadow: 0 6px 18px 0 #c850c032;">
+      + Agregar sucursal
+    </button>
   </section>
-
   <section class="content">
     <div class="row">
-      <div class="col-md-12">
-        <div class="bg-white shadow-sm rounded-4 p-0">
-          <table class="table align-middle mb-0">
-            <thead class="table-dark">
-              <tr>
-                <th style="width: 5%;">ID</th>
-                <th style="width: 45%;">Sucursal</th>
-                <th style="width: 20%;">Estado</th>
-                <th style="width: 30%;" class="text-end">Acciones</th>
+      <div class="col-12">
+        <div class="shadow-lg rounded-4 bg-white p-0"
+          style="border: none; box-shadow: 0 10px 32px 0 #1F21380A, 0 1.5px 6px 0 #C850C022;">
+          <table class="table align-middle mb-0 table-borderless">
+            <thead>
+              <tr style="border-bottom: 1.5px solid #f1e7f7;">
+                <th style="width: 8%;">ID</th>
+                <th>Sucursal</th>
+                <th>Estado</th>
+                <th class="text-end" style="width: 20%;">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @forelse($branches as $branch)
               <tr>
-                <td>{{ $branch->id }}</td>
-                <td class="text-end">
-                  <p href="#" class="fw-normal text-primary text-decoration-underline" style="font-size: 1rem;">{{ $branch->name }}</p>
+                <td class="fw-bold text-secondary">{{ $branch->id }}</td>
+                <td>
+                  <span class="fw-medium sucursal-gradient"
+                    style="font-size: 1.07rem;">{{ $branch->name }}</span>
                 </td>
                 <td>
                   @if($branch->status)
-                  <span class="badge rounded-pill" style="background: #21844f; color: #fff; font-size: .95rem; padding: .5em 1.4em;">Activo</span>
+                  <span class="badge rounded-pill px-3 py-2"
+                    style="background: #c53db4; color: #fff; font-weight:600; font-size: .98rem;">
+                    Activo
+                  </span>
                   @else
-                  <span class="badge rounded-pill" style="background: #63686e; color: #fff; font-size: .95rem; padding: .5em 1.4em;">Inactivo</span>
+                  <span class="badge rounded-pill px-3 py-2"
+                    style="background: #63686e; color: #fff; font-weight:600; font-size: .98rem;">
+                    Inactivo
+                  </span>
                   @endif
                 </td>
                 <td class="text-end">
-                  <a href="{{ route('branch.edit', $branch->id) }}" class="btn btn-link p-0 m-0" title="Editar" style="color:#ffb300;">
-                    <i class="bi bi-pencil-square" style="font-size: 1.2rem;"></i>
+                  <a href="{{ route('branch.edit', $branch->id) }}"
+                    class="btn btn-link p-0 m-0 me-2"
+                    title="Editar"
+                    style="color:#c53db4;">
+                    <i class="bi bi-pencil-square" style="font-size: 1.3rem; vertical-align: middle;"></i>
                   </a>
                   <form action="{{ route('branch.destroy', $branch->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-link p-0 m-0" title="Eliminar" style="color:#d32f48;" onclick="return confirm('¿Estás seguro de eliminar esta sucursal?')">
-                      <i class="bi bi-trash" style="font-size: 1.2rem;"></i>
+                    <button type="submit"
+                      class="btn btn-link p-0 m-0"
+                      title="Eliminar"
+                      style="color:#c53db4;"
+                      onclick="return confirm('¿Estás seguro de eliminar esta sucursal?')">
+                      <i class="bi bi-trash" style="font-size: 1.3rem; vertical-align: middle;"></i>
                     </button>
                   </form>
                 </td>
@@ -77,7 +100,7 @@
   </div>
   @endif
   <div class="form-group mb-3">
-    <label for="branch-name" class="form-label">Nombre de la sucursal</label>
+    <label for="branch-name" class="form-label fw-semibold">Nombre de la sucursal</label>
     <input
       type="text"
       class="form-control"
@@ -86,10 +109,59 @@
       placeholder="Ingrese el nombre"
       required>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-    <button type="submit" class="btn btn-primary">Guardar</button>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 9px;">Cancelar</button>
+    <button type="submit" class="btn btn-gradient"
+      style="background: linear-gradient(90deg, #C850C0 0%, #FFCC70 100%); color: #fff; border: none; font-weight: 600; border-radius: 9px;">
+      Guardar
+    </button>
   </div>
 </form>
 @endcomponent
+
+@push('styles')
+<style>
+  .sucursal-gradient {
+    background: linear-gradient(90deg, #C850C0, #FFCC70);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .btn-gradient {
+    background: linear-gradient(90deg, #C850C0 0%, #FFCC70 100%) !important;
+    color: #fff !important;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 6px 18px 0 #c850c032;
+  }
+
+  .table th {
+    border: none !important;
+    font-weight: 600;
+    background: transparent;
+    color: #222;
+    font-size: 1.07rem;
+  }
+
+  .table td {
+    border-top: none !important;
+    border-bottom: 1px solid #f4f4f4 !important;
+    vertical-align: middle;
+    background: transparent !important;
+  }
+
+  .table thead tr {
+    border-bottom: 1.5px solid #f1e7f7;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 10px 32px 0 #1F21380A, 0 1.5px 6px 0 #C850C022 !important;
+  }
+
+  body,
+  .container-fluid {
+    background: #f7f8fa !important;
+  }
+</style>
+@endpush
 @endsection

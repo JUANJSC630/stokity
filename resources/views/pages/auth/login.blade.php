@@ -41,16 +41,16 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="mb-3 form-check">
+                    <!-- <div class="mb-3 form-check">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label" for="remember">
                             Recordarme
                         </label>
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn btn-lg btn-gradient w-100 mb-3" style="background: linear-gradient(90deg, #C850C0 0%, #FFCC70 100%); color: #fff; border: none;">
                         Iniciar sesión 🚀
                     </button>
-                    <div class="d-flex justify-content-between">
+                    <!-- <div class="d-flex justify-content-between">
                         @if (Route::has('password.email'))
                         <a class="small text-decoration-none" href="{{ route('auth.password.email') }}">
                             ¿Olvidaste tu contraseña?
@@ -59,7 +59,7 @@
                         <a class="small text-decoration-none" href="{{ route('auth.register') }}">
                             ¿No tienes cuenta?
                         </a>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>
