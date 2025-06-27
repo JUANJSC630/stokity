@@ -74,7 +74,11 @@
   @yield('auth')
 
   @endif
+  
+  @yield('scripts')
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script
   src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
@@ -113,6 +117,32 @@
     }
   });
 </script>
+
+@if (session('success'))
+<script type="text/javascript">
+  Swal.fire({
+    icon: 'success',
+    title: '{{ session('success') }}',
+    confirmButtonText: 'Aceptar',
+    customClass: {
+      confirmButton: 'btn btn-success'
+    }
+  });
+</script>
+@endif
+
+@if (session('error'))
+<script type="text/javascript">
+  Swal.fire({
+    icon: 'error',
+    title: '{{ session('error') }}',
+    confirmButtonText: 'Aceptar',
+    customClass: {
+      confirmButton: 'btn btn-danger'
+    }
+  });
+</script>
+@endif
 
 @vite(['resources/css/app.css', 'resources/js/adminlte.js'])
 

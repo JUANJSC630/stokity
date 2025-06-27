@@ -30,15 +30,18 @@ Route::view(('/auth/password/reset'), 'pages.auth.passwords.reset')->name('auth.
 Route::view(('/auth/password/email'), 'pages.auth.passwords.email')->name('auth.password.email');
 Route::view(('/auth/password/confirm'), 'pages.auth.passwords.confirm')->name('auth.password.confirm');
 
-Route::view('/users', 'pages.users')->name('users');
+// Rutas para las vistas estáticas de los módulos
 Route::view('/categories', 'pages.categories')->name('categories');
 Route::view('/products', 'pages.products')->name('products');
 Route::view('/clients', 'pages.clients')->name('clients');
 Route::view('/sales', 'pages.sales')->name('sales');
 Route::view('/report-sales', 'pages.report-sales')->name('report-sales');
 
-Route::get('/branches', [BranchController::class, 'index'])->name('branch.index');
+Route::get('/branches', [BranchController::class, 'index'])->name('branch');
 Route::post('branch', [BranchController::class, 'store'])->name('branch.store');
 Route::get('branch/{branch}/edit', [BranchController::class, 'edit'])->name('branch.edit');
 Route::put('branch/{branch}', [BranchController::class, 'update'])->name('branch.update');
 Route::delete('branch/{branch}', [BranchController::class, 'destroy'])->name('branch.destroy');
+
+
+Route::resource('users', UserController::class);

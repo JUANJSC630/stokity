@@ -33,7 +33,7 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         // Validate the request data
-        $request->validate([
+        $validator = $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'nullable|boolean',
         ]);
@@ -45,7 +45,7 @@ class BranchController extends Controller
         ]);
 
         // Redirect back with a success message
-        return redirect()->route('branch.index')->with('success', 'Branch created successfully.');
+        return redirect()->route('branch')->with('success', 'Sucursal creada correctamente.');
     }
 
     /**
@@ -61,7 +61,11 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('home')->with('error', 'You do not have permission to access this page.');
+        }
+        
+        return view('pages.branch_edit', compact('branch'));
     }
 
     /**
@@ -69,7 +73,24 @@ class BranchController extends Controller
      */
     public function update(Request $request, Branch $branch)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('home')->with('error', 'You do not have permission to access this page.');
+        }
+        
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|boolean',
+        ]);
+
+        // Update the branch
+        $branch->update([
+            'name' => $request->input('name'),
+            'status' => $request->input('status'),
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('branch')->with('success', 'Sucursal actualizada correctamente.');
     }
 
     /**
@@ -81,6 +102,6 @@ class BranchController extends Controller
         $branch->delete();
 
         // Redirect back with a success message
-        return redirect()->route('branch.index')->with('success', 'Branch deleted successfully.');
+        return redirect()->route('branch')->with('success', 'Sucursal eliminada correctamente.');
     }
 }

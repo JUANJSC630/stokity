@@ -16,3 +16,12 @@
     </div>
   </div>
 </div>
+
+@if(isset($showOnLoad) && $showOnLoad)
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var modal = new bootstrap.Modal(document.getElementById('{{ $id }}'));
+    modal.show();
+  });
+</script>
+@endif
