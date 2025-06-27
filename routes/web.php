@@ -45,3 +45,4 @@ Route::delete('branch/{branch}', [BranchController::class, 'destroy'])->name('br
 
 
 Route::resource('users', UserController::class);
+Route::put('users/{user}/status', [UserController::class, 'updateStatus'])->name('users.status.update');

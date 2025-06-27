@@ -2,7 +2,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-  <!-- Charset & Viewport -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,10 +51,6 @@
     href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
     integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
     crossorigin="anonymous" />
-
-  <!-- AdminLTE CSS (ajusta la ruta si usas Vite) -->
-  <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}" />
-  <!-- Si usas Vite, reemplaza la línea anterior por: @vite('resources/css/app.css') -->
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -78,6 +73,8 @@
   @yield('scripts')
 </body>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script
@@ -94,8 +91,6 @@
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
   integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
   crossorigin="anonymous"></script>
-<!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-<script src="{{ asset('/resources/js/adminlte.js') }}"></script>
 <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 <script>
   const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
@@ -144,6 +139,6 @@
 </script>
 @endif
 
-@vite(['resources/css/app.css', 'resources/js/adminlte.js'])
+@vite(['resources/css/app.css', 'resources/js/adminlte.js' , 'resources/js/users.js'])
 
 </html>

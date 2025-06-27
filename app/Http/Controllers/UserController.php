@@ -47,15 +47,28 @@ class UserController extends Controller
                 'password' => bcrypt($validatedData['password']),
                 'branch_id' => $validatedData['branch_id'] ?? null,
                 'role' => $request->input('role', 'employee'),
-                'status' => true,
+                'status' => (bool)(int)$request->input('status', 1),
             ];
 
             // Procesar la foto si se ha subido una
-            if ($request->hasFile('photo')) {
-                $photo = $request->file('photo');
-                $filename = time() . '.' . $photo->getClientOriginalExtension();
-                $photo->move(public_path('uploads/users'), $filename);
-                $userData['photo'] = '/uploads/users/' . $filename;
+            if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+                try {
+                    // Asegurar que la carpeta exista
+                    $uploadPath = public_path('uploads/users');
+                    if (!is_dir($uploadPath)) {
+                        mkdir($uploadPath, 0755, true);
+                    }
+                    
+                    $photo = $request->file('photo');
+                    $filename = time() . '.' . $photo->getClientOriginalExtension();
+                    $photo->move($uploadPath, $filename);
+                    $userData['photo'] = '/uploads/users/' . $filename;
+                } catch (\Exception $e) {
+                    // Si hay un error al procesar la foto, usar avatar generado
+                    \Log::error('Error al procesar la foto: ' . $e->getMessage());
+                    $userData['photo'] = 'https://ui-avatars.com/api/?name=' . urlencode($validatedData['name']) . '&background=random&color=fff&size=128';
+                    session()->flash('warning', 'No se pudo procesar la imagen. Se usará un avatar generado automáticamente.');
+                }
             } else {
                 // Usar avatar generado automáticamente si no se sube ninguna foto
                 $userData['photo'] = 'https://ui-avatars.com/api/?name=' . urlencode($validatedData['name']) . '&background=random&color=fff&size=128';
@@ -71,14 +84,20 @@ class UserController extends Controller
             // Manejar específicamente el error de email duplicado con un mensaje más amigable
             if (isset($e->validator->failed()['email']['Unique'])) {
                 $branches = \App\Models\Branch::all();
-                session()->flashInput($request->except('password'));
+                // Evitar almacenar el objeto UploadedFile en la sesión
+                $oldInput = $request->except(['password', 'photo']);
+                session()->flashInput($oldInput);
+                
                 return view('pages.users-create', compact('branches'))
                     ->withErrors(['email' => 'Este correo electrónico ya está registrado. Por favor, utilice otro.']);
             }
             
             // Para otros errores de validación, los mostramos en la misma página
             $branches = \App\Models\Branch::all();
-            session()->flashInput($request->except('password'));
+            // Evitar almacenar el objeto UploadedFile en la sesión
+            $oldInput = $request->except(['password', 'photo']);
+            session()->flashInput($oldInput);
+            
             return view('pages.users-create', compact('branches'))
                 ->withErrors($e->validator);
         }
@@ -156,6 +175,13 @@ class UserController extends Controller
                 $userData['role'] = $role;
                 $hasChanges = true;
             }
+            
+            // Verificar status - comprobamos el valor enviado directamente
+            $status = (bool)(int)$request->input('status', 0); // Convertimos a entero y luego a booleano
+            if ($status !== $user->status) {
+                $userData['status'] = $status;
+                $hasChanges = true;
+            }
 
             // Solo actualiza la contraseña si se proporcionó una nueva
             if (!empty($validatedData['password']) && $validatedData['password'] != 'null') {
@@ -164,7 +190,7 @@ class UserController extends Controller
             }
 
             // Procesar la foto si se ha subido una nueva
-            if ($request->hasFile('photo')) {
+            if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
                 $hasChanges = true;
                 
                 // Eliminar la foto anterior si existe y no es un avatar generado
@@ -175,11 +201,23 @@ class UserController extends Controller
                     }
                 }
 
-                // Guardar la nueva foto
-                $photo = $request->file('photo');
-                $filename = time() . '.' . $photo->getClientOriginalExtension();
-                $photo->move(public_path('uploads/users'), $filename);
-                $userData['photo'] = '/uploads/users/' . $filename;
+                try {
+                    // Asegurar que la carpeta exista
+                    $uploadPath = public_path('uploads/users');
+                    if (!is_dir($uploadPath)) {
+                        mkdir($uploadPath, 0755, true);
+                    }
+
+                    // Guardar la nueva foto
+                    $photo = $request->file('photo');
+                    $filename = time() . '.' . $photo->getClientOriginalExtension();
+                    $photo->move($uploadPath, $filename);
+                    $userData['photo'] = '/uploads/users/' . $filename;
+                } catch (\Exception $e) {
+                    // Si hay un error al procesar la foto, registrarlo pero continuar con otras actualizaciones
+                    \Log::error('Error al procesar la foto: ' . $e->getMessage());
+                    session()->flash('warning', 'No se pudo procesar la imagen. Los demás datos fueron actualizados.');
+                }
             }
 
             // Solo actualiza si hay cambios
@@ -196,15 +234,71 @@ class UserController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Si hay un error de validación con el email duplicado
             if (isset($e->validator->failed()['email']['Unique'])) {
-                session()->flashInput($request->except('password'));
+                // Evitar almacenar el objeto UploadedFile en la sesión
+                $oldInput = $request->except(['password', 'photo']);
+                session()->flashInput($oldInput);
+                
                 return view('pages.users-edit', compact('user', 'branches'))
                     ->withErrors(['email' => 'Este correo electrónico ya está registrado. Por favor, utilice otro.']);
             }
             
             // Para otros errores de validación, los mostramos en la misma página
-            session()->flashInput($request->except('password'));
+            // Evitar almacenar el objeto UploadedFile en la sesión
+            $oldInput = $request->except(['password', 'photo']);
+            session()->flashInput($oldInput);
+            
             return view('pages.users-edit', compact('user', 'branches'))
                 ->withErrors($e->validator);
+        } catch (\Exception $e) {
+            // Capturar cualquier otra excepción
+            session()->flash('error', 'Ha ocurrido un error al actualizar el usuario: ' . $e->getMessage());
+            return redirect()->route('users.edit', $id);
+        }
+    }
+
+    /**
+     * Update the user status.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            
+            // Verificar si el usuario está intentando cambiar su propio estado
+            if (auth()->id() == $id) {
+                session()->flash('error', 'No puedes cambiar tu propio estado mientras estás usando el sistema.');
+                return redirect()->route('users.index');
+            }
+            
+            $status = (bool)(int)$request->input('status', !$user->status);
+            
+            $user->update([
+                'status' => $status
+            ]);
+            
+            $statusText = $status ? 'activado' : 'desactivado';
+            session()->flash('success', "Usuario {$statusText} exitosamente.");
+            
+            // Si la solicitud es Ajax/fetch, devolver JSON
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "Usuario {$statusText} exitosamente.",
+                    'status' => $status
+                ]);
+            }
+            
+            return redirect()->route('users.index');
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al actualizar el estado del usuario: ' . $e->getMessage()
+                ], 500);
+            }
+            
+            session()->flash('error', 'Error al actualizar el estado del usuario: ' . $e->getMessage());
+            return redirect()->route('users.index');
         }
     }
 
@@ -221,6 +315,15 @@ class UserController extends Controller
         
         try {
             $user = User::findOrFail($id);
+            
+            // Eliminar la foto del usuario si existe y no es un avatar generado
+            if ($user->photo && !str_contains($user->photo, 'ui-avatars.com')) {
+                $photoPath = public_path(ltrim($user->photo, '/'));
+                if (file_exists($photoPath)) {
+                    unlink($photoPath);
+                }
+            }
+            
             $user->delete();
             session()->flash('success', 'Usuario eliminado exitosamente.');
             return redirect()->route('users.index');

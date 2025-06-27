@@ -63,11 +63,11 @@
                         @break
                         @case('manager')
                         <span class="badge rounded-pill px-3 py-2"
-                          style="background: #ffc107; color: #7A5100; font-size: .97rem;">Gerente</span>
+                          style="background: #ffc107; color: #7A5100; font-size: .97rem;">Encargado</span>
                         @break
                         @default
                         <span class="badge rounded-pill px-3 py-2"
-                          style="background: #63686e; color: #fff; font-size: .97rem;">Empleado</span>
+                          style="background: #63686e; color: #fff; font-size: .97rem;">Vendedor</span>
                         @endswitch
                       </td>
                     </tr>

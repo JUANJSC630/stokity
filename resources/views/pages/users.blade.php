@@ -47,8 +47,9 @@
                                 <th style="width: 26%;">Usuario</th>
                                 <th style="width: 20%;">Email</th>
                                 <th style="width: 12%;">Rol</th>
-                                <th style="width: 17%;">Sucursal</th>
-                                <th style="width: 20%;" class="text-end">Acciones</th>
+                                <th style="width: 12%;">Estado</th>
+                                <th style="width: 10%;">Sucursal</th>
+                                <th style="width: 15%;" class="text-end">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,21 +74,34 @@
                                     @case('admin')
                                     <span class="badge rounded-pill px-3 py-2"
                                         style="background: #dc3545; color: #fff; font-weight:600; font-size: .98rem;">
-                                        Admin
+                                        Administrador
                                     </span>
                                     @break
                                     @case('manager')
                                     <span class="badge rounded-pill px-3 py-2"
                                         style="background: #ffc107; color: #7A5100; font-weight:600; font-size: .98rem;">
-                                        Gerente
+                                        Encargado
                                     </span>
                                     @break
                                     @default
                                     <span class="badge rounded-pill px-3 py-2"
                                         style="background: #63686e; color: #fff; font-weight:600; font-size: .98rem;">
-                                        Empleado
+                                        Vendedor
                                     </span>
                                     @endswitch
+                                </td>
+                                <td>
+                                    @if($user->status)
+                                    <span class="badge rounded-pill px-3 py-2"
+                                        style="background: #28a745; color: #fff; font-weight:600; font-size: .98rem;">
+                                        Activo
+                                    </span>
+                                    @else
+                                    <span class="badge rounded-pill px-3 py-2"
+                                        style="background: #dc3545; color: #fff; font-weight:600; font-size: .98rem;">
+                                        Inactivo
+                                    </span>
+                                    @endif
                                 </td>
                                 <td>
                                     @if($user->branch)
@@ -98,7 +112,7 @@
                                 </td>
                                 <td class="text-end">
                                     <a href="{{ route('users.show', $user->id) }}"
-                                        class="btn btn-link p-0 m-0 me-2"
+                                        class="btn btn-link p-0 m-0"
                                         title="Ver"
                                         style="color:#C850C0;">
                                         <i class="bi bi-eye" style="font-size: 1.25rem; vertical-align: middle;"></i>
@@ -110,7 +124,7 @@
                                         <i class="bi bi-pencil-square" style="font-size: 1.25rem; vertical-align: middle;"></i>
                                     </a>
                                     @if(auth()->id() != $user->id)
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline me-2">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -123,7 +137,7 @@
                                     </form>
                                     @else
                                     <button type="button"
-                                        class="btn btn-link p-0 m-0"
+                                        class="btn btn-link p-0 m-0 me-2"
                                         title="No puedes eliminar tu propio usuario"
                                         style="color:#bbb; cursor: not-allowed;">
                                         <i class="bi bi-trash" style="font-size: 1.25rem; vertical-align: middle;"></i>
@@ -133,7 +147,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-4">No hay usuarios registrados.</td>
+                                <td colspan="7" class="text-center text-muted py-4">No hay usuarios registrados.</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -188,5 +202,76 @@
         background: #f7f8fa !important;
     }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('.status-toggle-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        var form = $(this);
+        var button = form.find('button.toggle-status');
+        var icon = button.find('i');
+        var statusInput = form.find('input[name="status"]');
+        var userId = form.attr('action').split('/').pop();
+        
+        $.ajax({
+            url: form.attr('action'),
+            type: 'PUT',
+            data: form.serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Actualizar UI
+                if (response.status) {
+                    // Cambiar a activo
+                    icon.removeClass('bi-toggle-off').addClass('bi-toggle-on');
+                    button.css('color', '#ffc107').attr('title', 'Desactivar usuario');
+                    statusInput.val(0);
+                    
+                    // Actualizar el badge de estado
+                    $('tr:has(form[action$="' + userId + '"])').find('td:nth-child(5) span').removeClass('bg-danger').addClass('bg-success').text('Activo');
+                } else {
+                    // Cambiar a inactivo
+                    icon.removeClass('bi-toggle-on').addClass('bi-toggle-off');
+                    button.css('color', '#28a745').attr('title', 'Activar usuario');
+                    statusInput.val(1);
+                    
+                    // Actualizar el badge de estado
+                    $('tr:has(form[action$="' + userId + '"])').find('td:nth-child(5) span').removeClass('bg-success').addClass('bg-danger').text('Inactivo');
+                }
+                
+                // Mostrar mensaje
+                var alertDiv = $('<div class="alert alert-success alert-dismissible fade show mb-3" role="alert">' + 
+                    response.message + 
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' + 
+                    '</div>');
+                    
+                $('.container').prepend(alertDiv);
+                
+                // Auto-ocultar alerta después de 3 segundos
+                setTimeout(function() {
+                    alertDiv.alert('close');
+                }, 3000);
+            },
+            error: function(xhr) {
+                var message = 'Ha ocurrido un error al cambiar el estado';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                
+                var alertDiv = $('<div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">' + 
+                    message + 
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' + 
+                    '</div>');
+                    
+                $('.container').prepend(alertDiv);
+            }
+        });
+    });
+});
+</script>
 @endpush
 @endsection

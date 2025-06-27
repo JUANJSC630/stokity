@@ -84,7 +84,7 @@
               <input type="password" class="form-control form-control-lg rounded-3" id="password" name="password">
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 select-branch" id="branch-section" style="display: none;">
               <label for="branch_id" class="form-label fw-semibold">Sucursal</label>
               <select class="form-select form-select-lg rounded-3" id="branch_id" name="branch_id">
                 <option value="">Seleccione una sucursal</option>
@@ -96,12 +96,25 @@
 
             <div class="form-group mb-3">
               <label for="role" class="form-label fw-semibold">Rol</label>
-              <select class="form-select form-select-lg rounded-3" id="role" name="role" required>
+              <select class="form-select form-select-lg rounded-3 select-role" id="role" name="role" required>
                 <option value="">Seleccione un rol</option>
                 <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrador</option>
-                <option value="manager" {{ old('role', $user->role) == 'manager' ? 'selected' : '' }}>Gerente</option>
-                <option value="employee" {{ old('role', $user->role) == 'employee' ? 'selected' : '' }}>Empleado</option>
+                <option value="manager" {{ old('role', $user->role) == 'manager' ? 'selected' : '' }}>Encargado</option>
+                <option value="employee" {{ old('role', $user->role) == 'employee' ? 'selected' : '' }}>Vendedor</option>
               </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="status" class="form-label fw-semibold">Estado</label>
+              <div class="form-switch-group d-flex align-items-center gap-3">
+                <input type="hidden" name="status" value="0">
+                <input class="form-check-input form-switch-lg" type="checkbox" role="switch" id="status" name="status" value="1"
+                  {{ $user->status ? 'checked' : '' }} />
+                <span id="statusText" class="fw-bold ms-2 px-3 py-1 rounded-pill status-badge"
+                  style="{{ $user->status ? 'background: #e9f7ef; color: #28a745;' : 'background: #f8d7da; color: #dc3545;' }}">
+                  {{ $user->status ? 'Activo' : 'Inactivo' }}
+                </span>
+              </div>
             </div>
 
             <div class="mt-4 d-flex justify-content-end gap-2">
@@ -164,6 +177,76 @@
   label {
     color: #7e57a0;
   }
+
+  .form-check-input.form-switch-lg {
+    width: 3em;
+    height: 1.5em;
+    background-color: #e9e6f7;
+    border: 1.4px solid #e3d9f7;
+    transition: background .2s, border .2s;
+  }
+
+  .form-check-input.form-switch-lg:checked {
+    background-color: #C850C0;
+    border-color: #C850C0;
+  }
+
+  .form-check-input.form-switch-lg:focus {
+    box-shadow: 0 0 0 0.13rem #C850C033;
+    outline: none;
+  }
+
+  .status-badge {
+    font-size: 1.02em;
+    border-radius: 2em;
+    font-weight: 600;
+    transition: all .2s;
+    min-width: 85px;
+    display: inline-block;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+  $(document).ready(function() {
+    // Mostrar/ocultar el selector de sucursal dependiendo del rol
+    function updateBranchVisibility() {
+      var role = $('.select-role').val();
+      if (role === 'manager' || role === 'employee') {
+        $('#branch-section').slideDown();
+      } else {
+        $('#branch-section').slideUp();
+      }
+    }
+
+    // Inicializar visibilidad
+    updateBranchVisibility();
+
+    // Actualizar visibilidad cuando cambia el rol
+    $('.select-role').on('change', function() {
+      updateBranchVisibility();
+    });
+
+    // Actualizar texto y estilos del estado cuando cambia el switch
+    $('#status').on('change', function() {
+      if ($(this).is(':checked')) {
+        $('#statusText').text('Activo')
+          .css({
+            'background': '#e9f7ef',
+            'color': '#28a745'
+          });
+      } else {
+        $('#statusText').text('Inactivo')
+          .css({
+            'background': '#f8d7da',
+            'color': '#dc3545'
+          });
+      }
+    });
+  });
+</script>
 @endpush
 @endsection
