@@ -12,7 +12,7 @@
                     <p class="text-muted mb-0">Accede con tu cuenta super wow</p>
                 </div>
                 @if (session('status'))
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-danger" role="alert">
                     {{ session('status') }}
                 </div>
                 @endif
