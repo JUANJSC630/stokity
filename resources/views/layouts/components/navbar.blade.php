@@ -32,10 +32,25 @@
               alt="User Image"
               style="width: 90px; height: 90px; object-fit: cover; border: 4px solid #fff;" />
             <p class="mt-3 mb-0 fw-bold" style="font-size: 1.09rem;">{{ Auth::user()->name }}</p>
-            <span class="badge rounded-pill bg-white text-dark mt-2 mb-1 px-3 py-2"
-              style="font-size: 0.97rem;">
-              {{ Auth::user()->role }}
-            </span>
+            @switch(Auth::user()->role)
+              @case('admin')
+                <span class="badge rounded-pill px-3 py-2 mt-2 mb-1"
+                  style="background: #fff; color: #C850C0; font-weight:600; font-size: .98rem;">
+                  Administrador
+                </span>
+              @break
+              @case('manager')
+                <span class="badge rounded-pill px-3 py-2 mt-2 mb-1"
+                  style="background: #fff; color: #C850C0; font-weight:600; font-size: .98rem;">
+                  Encargado
+                </span>
+              @break
+              @default
+                <span class="badge rounded-pill px-3 py-2 mt-2 mb-1"
+                  style="background: #fff; color: #C850C0; font-weight:600; font-size: .98rem;">
+                  Vendedor
+                </span>
+            @endswitch
             <div class="small mt-2" style="color: #fff9; font-weight: 400;">
               Miembro desde {{ \Carbon\Carbon::parse(Auth::user()->created_at)->format('d M Y') }}
             </div>
